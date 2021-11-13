@@ -1,15 +1,15 @@
 package com.foodie.aap.model;
 
 public class Restaurant {
-	private static  int restaurantID;
-	private static String restaurantName;
+	private  int restaurantID;
+	private String restaurantName;
 	private String restaurantLocation;
 	private String restaurantType;
 	private String restaurantCategory;
 	public static int getRestaurantID() {
 		return restaurantID;
 	}
-	public static void setRestaurantID(int restaurantID) {
+	public static void setRestaurantID(Restaurant restaurantID) {
 		this.restaurantID = restaurantID;
 	}
 	public static String getRestaurantName() {
@@ -20,9 +20,6 @@ public class Restaurant {
 	}
 	public String getRestaurantLocation() {
 		return restaurantLocation;
-	}
-	public void setRestaurantLocation(int restaurantLocation2) {
-		this.restaurantLocation = restaurantLocation2;
 	}
 	public String getRestaurantType() {
 		return restaurantType;
@@ -36,7 +33,7 @@ public class Restaurant {
 	public void setRestaurantCategory(String restaurantCategory) {
 		this.restaurantCategory = restaurantCategory;
 	}
-	public Restaurant() {
+	public Restaurant(int restaruantId, String restaurantName2) {
 		super();
 		this.restaurantID = restaurantID;
 		this.restaurantName = restaurantName;

@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import com.btc.app.exception.InvalidEmpNameException;
+import com.foodie.app.exception.InvalidEmpNameException;
 import com.btc.app.exception.InvalidEmployeeId;
 import com.btc.app.model.Employee;
 import com.foodie.aap.model.Restaurant;
@@ -115,14 +115,14 @@ public class RestaurantAppUi {
 				employeeId=scanner.nextInt();
 				if(employeeId<1000)
 				{
-					throw new InvalideRestaurantId("Enter four digit EmployeeId : "+RestaurantId);
+					throw new InvalideRestaurantId("Enter four digit EmployeeId : "+restaruantId);
 				}
 			} catch (InputMismatchException e) {
 				// TODO: handle exception
 				e.getMessage();
 				System.out.println("Enter the Integer Value ");
 			}
-			Restaurant restaurant = service.searchRestaurantLocation(restaruantId);
+			InvalideRestaurantId restaurant = service.searchRestaurantLocation(restaruantId);
 			if(restaurant!=null) {
 			System.out.println(restaurant);
 			System.out.print("Employee Name : ");
@@ -130,13 +130,12 @@ public class RestaurantAppUi {
 			System.out.print("Email : ");
 			String email=scanner.next()+scanner.nextLine();
 			String dobString=scanner.next()+scanner.nextLine();
-			LocalDate dob=LocalDate.parse(dobString);
-			Employee employee1= new Employee(employeeId, employeeName, email, dob);
-			 service.updateEmployee(employee1);
+			Restaurant Restaurant1= new Restaurant(restaruantId, RestaurantName);
+			 service.updateRestaurant(Restaurant1);
 			 System.out.println("Update Successfully");
 			}
 			else {
-				throw new NotFoundException("Employee ID Not Found : "+employeeId);
+				throw new NotFoundException("Employee ID Not Found : "+restaruantId);
 			}
 		}
 		}
