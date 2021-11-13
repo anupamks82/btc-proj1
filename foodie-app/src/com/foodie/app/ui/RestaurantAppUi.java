@@ -1,10 +1,16 @@
 package com.foodie.app.ui;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import com.btc.app.exception.InvalidEmpNameException;
+import com.btc.app.exception.InvalidEmployeeId;
+import com.btc.app.model.Employee;
 import com.foodie.aap.model.Restaurant;
+import com.foodie.app.Exception.InvalideNameException;
+import com.foodie.app.Exception.InvalideRestaurantId;
 import com.foodie.app.Exception.NotFoundException;
 import com.foodie.app.service.RestaurantService;
 import com.foodie.app.service.RestaurantServiceImpl;
@@ -12,170 +18,127 @@ import com.foodie.app.service.RestaurantServiceImpl;
 public class RestaurantAppUi {
 	private Scanner scanner=new Scanner(System.in);
 	private int restaurant;
+	private String restaruantName;
+	private int restaruantId;
 	private static RestaurantService service=new RestaurantServiceImpl();
-	
-	public void addUser() throws Exception  {
-     Restaurant restaurant= new Restaurant();
-		System.out.println("Enter User Details :  ");
-		System.out.print("User ID : ");
-		int RestaurantId=scanner.nextInt();
-		try {
-			
-			if(RestaurantId<1000)
-			{
-				throw new Exception("Enter four digit User Id : "+RestaurantId);
-			}
-			Restaurant.setRestaurantID(RestaurantId);
-		} catch (InputMismatchException e) {
-			// TODO: handle exception
-			e.getMessage();
-			System.out.println("Enter the Integer Value ");
-			System.out.print("Email : ");
-			String email=scanner.next()+scanner.nextLine();
-			String regex="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
-			
-				if(email.matches(regex)) {
-					System.out.println("Correct Email Address");
-					restaurant.setRestaurantCategory(email);
-				}
-				else {
-					throw new Exception("Enter Correct Email Address");
-				}
-			
-			System.out.print("Password : ");
-			String password = scanner.next()+scanner.nextLine();
-			if(password.length()<8)
-			{
-				throw new Exception("Passowrd Atleast 8 character");
-			}
-			else {
-				restaurant.setPassword(password);
-			}
-			
-		}
-
-	}
-	public void showrestaurantById() {
-		System.out.print("User ID : ");
-		int userId=0;
-		try {
-			userId=scanner.nextInt();
-			if(userId<1000)
-			{
-				throw new Exception("Enter four digit UserId : "+userId);
-			}
-		} catch (InputMismatchException e) {
-			// TODO: handle exception
-			e.getMessage();
-			System.out.println("Enter the Integer Value ");
-		}
-		
-		public void showRestaurantById() {
-			System.out.print("User ID : ");
-			int userId=0;
+		public void addRestaurant() throws SQLException  {
+			Restaurant restaurant= new Restaurant();
+			System.out.println("Enter Restaurant Details :  ");
+			System.out.print("Restaurant Id : ");
+			int RestaurantId=scanner.nextInt();;
 			try {
-				userId=scanner.nextInt();
-				if(userId<1000)
-				{
-					throw new Exception("Enter four digit UserId : "+userId);
-				}
-			} catch (InputMismatchException e) {
-				// TODO: handle exception
-				e.getMessage();
-				System.out.println("Enter the Integer Value ");
-			}
-			
-			Restaurant user;
-			try {
-				user = service.searchRestaurantLocation(userId);
-				if(user==null)
-				{
-					throw new NotFoundException("User ID Not Found : "+userId);
-				}
 				
-				System.out.println(user); 
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-		}
-		
-		public void deleterestaurantById() 
-		{
-			System.out.print("User ID : ");
-			int userId=0;
-			try {
-				userId=scanner.nextInt();
-				if(userId<1000)
+				if(restaruantId<1000)
 				{
-					throw new Exception("Enter four digit UserId : "+userId);
+					throw new InvalideRestaurantId("Enter four digit EmployeeId : "+restaruantId);
 				}
+				restaurant.setRestaurantID(restaurant);
 			} catch (InputMismatchException e) {
-				// TODO: handle exception
 				e.getMessage();
 				System.out.println("Enter the Integer Value ");
 			}
 			
+				System.out.print("restaruant Name : ");
+				String employeeName=scanner.next()+scanner.nextLine();
+				try {
+					if(employeeName.length()<2)
+					{
+						throw new InvalideNameException("Enter correct restaruant Name :"+employeeName);
+					}
+					restaurant.setRestaurantName(restaruantName);
+				} catch (InputMismatchException e) {
+					e.getMessage();
+					System.out.println("Enter the correct name : "+restaruantName);
+				}
+				Restaurant savedRestaruant  =  service.addRestaruant (restaurant );
+				System.out.println("Restaruant  Added Successfully..");
+				System.out.println(savedRestaruant );
+	}
+		public void showEmployee() throws SQLException {
+			System.out.println("Enter Employee Details :  ");
+			System.out.print("Employee ID : ");
+			int RestaurantId=0;
 			try {
-				boolean value = service.deleteByRestaurantId(userId);
-				if(value==false)
+				RestaurantId=scanner.nextInt();
+				if(RestaurantId<1000)
 				{
-					throw new NotFoundException("User ID Not Found : "+userId);
+					throw new InvalideRestaurantId("Enter four digit EmployeeId : "+restaruantId);
 				}
-				else {
-					System.out.println("Deleted Successfully");
-					
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}restaurant;
-		try {
-			restaurant = service.searchRestaurantLocation(userId);
+			} catch (InputMismatchException e) {
+				e.getMessage();
+				System.out.println("Enter the Integer Value ");
+			}
+			
+			InvalideRestaurantId restaurant = service.searchRestaurantLocation(RestaurantId);
 			if(restaurant==null)
 			{
-				throw new NotFoundException("User ID Not Found : "+userId);
+				throw new NotFoundException("Employee ID Not Found : "+RestaurantId);
 			}
 			
-			System.out.println(restaurant); 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(restaurant);
+			
 		}
-		
-		
-	}
-	
-	public void deleteRestaurantById() 
-	{
-		System.out.print("User ID : ");
-		int userId=0;
-		try {
-			userId=scanner.nextInt();
-			if(userId<1000)
-			{
-				throw new Exception("Enter four digit UserId : "+restaurant);
+		public void deleteRestaurantId() throws SQLException
+		{
+			System.out.println("Enter Employee Details :  ");
+			System.out.print("Employee ID : ");
+			int employeeId=0;
+			try {
+				employeeId=scanner.nextInt();
+				if(employeeId<1000)
+				{
+					throw new InvalideRestaurantId("Enter four digit EmployeeId : "+employeeId);
+				}
+			} catch (InputMismatchException e) {
+				e.getMessage();
+				System.out.println("Enter the Integer Value ");
 			}
-		} catch (InputMismatchException e) {
-			// TODO: handle exception
-			e.getMessage();
-			System.out.println("Enter the Integer Value ");
-		}
-		
-		try {
-			boolean value = service.deleteEmployeeById(restaurant);
-			if(value==false)
+			boolean value = service.deleteByRestaurantId(restaruantId);
+			if(value)
 			{
-				throw new NotFoundException("User ID Not Found : "+userId);
+				System.out.println("Deleted Successfully");
 			}
 			else {
-				System.out.println("Deleted Successfully");
-				
+				throw new NotFoundException("Employee ID Not Found : "+restaruantId);
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+	}
+		
+		
+		
+		public void updateEmployee() throws SQLException
+		{
+			System.out.println("Enter Employee Details :  ");
+			System.out.print("Employee ID : ");
+			int employeeId=0;
+			try {
+				employeeId=scanner.nextInt();
+				if(employeeId<1000)
+				{
+					throw new InvalideRestaurantId("Enter four digit EmployeeId : "+RestaurantId);
+				}
+			} catch (InputMismatchException e) {
+				// TODO: handle exception
+				e.getMessage();
+				System.out.println("Enter the Integer Value ");
+			}
+			Restaurant restaurant = service.searchRestaurantLocation(restaruantId);
+			if(restaurant!=null) {
+			System.out.println(restaurant);
+			System.out.print("Employee Name : ");
+			String RestaurantName=scanner.next()+scanner.nextLine();
+			System.out.print("Email : ");
+			String email=scanner.next()+scanner.nextLine();
+			String dobString=scanner.next()+scanner.nextLine();
+			LocalDate dob=LocalDate.parse(dobString);
+			Employee employee1= new Employee(employeeId, employeeName, email, dob);
+			 service.updateEmployee(employee1);
+			 System.out.println("Update Successfully");
+			}
+			else {
+				throw new NotFoundException("Employee ID Not Found : "+employeeId);
+			}
 		}
-}
+		}
+	
+	
